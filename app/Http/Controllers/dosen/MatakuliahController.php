@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dosen;
 
-use App\Models\Dosen;
 use App\Models\MatMas;
 use App\Models\Jurusan;
 use App\Models\Presensi;
 use App\Models\Matakuliah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
 class MatakuliahController extends Controller
@@ -18,8 +18,9 @@ class MatakuliahController extends Controller
      */
     public function index()
     {
-        $matakuliah = Matakuliah::all();
-        return view('pagesAdmin.matakuliah', compact('matakuliah'));
+        $id = auth()->user()->id;
+        $matakuliah = Matakuliah::where('dosen_id', $id)->get();
+        return view('pagesDosen.matakuliah', compact('matakuliah'));
     }
 
     /**
@@ -28,7 +29,7 @@ class MatakuliahController extends Controller
     public function create()
     {
         $jurusan = Jurusan::all();
-        return view('pagesAdmin.matakuliah.tambah', compact('jurusan'));
+        return view('pagesDosen.matakuliah.tambah', compact('jurusan'));
     }
 
     /**
@@ -52,7 +53,7 @@ class MatakuliahController extends Controller
 
         Matakuliah::create($validateMatakuliah);
 
-        return redirect('admin/matakuliah')->with('success', 'Berhasil menambah Matakuliah');
+        return redirect('dosen/matakuliah')->with('success', 'Berhasil menambah Matakuliah');
     }
 
     /**
@@ -67,7 +68,7 @@ class MatakuliahController extends Controller
             DB::raw('COUNT(*) as data'),
             DB::raw('SUM(CASE WHEN status = "H" THEN 1 ELSE 0 END) as bPresensi')
         )->groupBy('tanggal_presensi', 'catatan')->where('matakuliah_id', $id)->get();
-        return view('pagesAdmin.matakuliah.lihat', compact('matakuliah', 'presensi'));
+        return view('pagesDosen.matakuliah.lihat', compact('matakuliah', 'presensi'));
     }
 
     /**
@@ -77,7 +78,7 @@ class MatakuliahController extends Controller
     {
         $matakuliah = Matakuliah::findOrFail($id);
         $jurusan = Jurusan::all();
-        return view('pagesAdmin.matakuliah.edit', compact('matakuliah', 'jurusan'));
+        return view('pagesDosen.matakuliah.edit', compact('matakuliah', 'jurusan'));
     }
 
     /**
@@ -104,7 +105,7 @@ class MatakuliahController extends Controller
 
         Matakuliah::findOrFail($id)->update($validateMatakuliah);
 
-        return redirect('admin/matakuliah')->with('success', 'Berhasil Mengedit Matakuliah');
+        return redirect()->route('dosen.matakuliah.lihat', $id)->with('success', 'Berhasil Mengedit Matakuliah');
     }
 
     /**
@@ -119,6 +120,6 @@ class MatakuliahController extends Controller
     {
         $matmas = MatMas::where('matakuliah_id', $id)->get();
         $matakuliah = Matakuliah::findOrFail($id);
-        return view('pagesAdmin.matakuliah.lihatMahasiswa', compact('matmas', 'matakuliah'));
+        return view('pagesDosen.matakuliah.lihatMahasiswa', compact('matmas', 'matakuliah'));
     }
 }

@@ -9,6 +9,7 @@ use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\MatakuliahController;
+use App\Http\Controllers\PresensiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,10 +27,6 @@ Route::middleware('guest:admin,dosen,mahasiswa')->group(function () {
     Route::post('/login', [LoginController::class, 'authenticat'])->name('login.auth');
 });
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
-
-Route::get('/welcome', [HomeController::class, 'welcome']);
-
-
 Route::middleware('auth:admin')
     ->controller(AdminController::class)
     ->prefix('admin')
@@ -65,15 +62,38 @@ Route::middleware('auth:admin')
         });
         Route::group(['prefix' => 'matakuliah'], function () {
             Route::resource('/', MatakuliahController::class);
-            Route::get('lihat={id},', [MatakuliahController::class, 'show'])->name('matakuliah.lihat');
+            Route::get('lihat={id}', [MatakuliahController::class, 'show'])->name('matakuliah.lihat');
+            Route::get('edit={id}', [MatakuliahController::class, 'edit'])->name('matakuliah.edit');
+            Route::put('update={id}', [MatakuliahController::class, 'update'])->name('matakuliah.update');
+            Route::get('lihatMahasiswa={id}', [MatakuliahController::class, 'lihatMahasiswa'])->name('matakuliah.lihatMahasiswa');
+            Route::get('/matkuliah={id}', [PresensiController::class, 'create'])->name('matakuliah.presensi');
+            Route::post('/matkuliahTambah={id}', [PresensiController::class, 'store'])->name('matakuliah.presensi.tambah');
+            Route::get('/matkuliahEdit={id}&tanggal={tgl}', [PresensiController::class, 'edit'])->name('matakuliah.presensi.edit');
+            Route::put('/matkuliahUpdate={id}&tanggal={tgl}', [PresensiController::class, 'update'])->name('matakuliah.presensi.update');
+        });
+        Route::group(['prefix' => 'calender'], function () {
+            Route::get('/', [AdminController::class, 'tamppilCalendar']);
+            Route::get('/tampil', [AdminController::class, 'calender'])->name('tampil.calendar');
         });
     });
+
 
 Route::middleware('auth:dosen')
     ->controller(App\Http\Controllers\dosen\DosenController::class)
     ->prefix('dosen')
     ->group(function () {
         Route::get('/', 'index')->name('dashboard');
+        Route::group(['prefix' => 'matakuliah'], function () {
+            Route::resource('/', App\Http\Controllers\dosen\MatakuliahController::class);
+            Route::get('lihat={id}', [App\Http\Controllers\dosen\MatakuliahController::class, 'show'])->name('dosen.matakuliah.lihat');
+            Route::get('edit={id}', [App\Http\Controllers\dosen\MatakuliahController::class, 'edit'])->name('dosen.matakuliah.edit');
+            Route::put('update={id}', [App\Http\Controllers\dosen\MatakuliahController::class, 'update'])->name('dosen.matakuliah.update');
+            Route::get('lihatMahasiswa={id}', [App\Http\Controllers\dosen\MatakuliahController::class, 'lihatMahasiswa'])->name('dosen.matakuliah.lihatMahasiswa');
+            Route::get('/matkuliah={id}', [App\Http\Controllers\dosen\PresensiController::class, 'create'])->name('dosen.matakuliah.presensi');
+            Route::post('/matkuliahTambah={id}', [App\Http\Controllers\dosen\PresensiController::class, 'store'])->name('dosen.matakuliah.presensi.tambah');
+            Route::get('/matkuliahEdit={id}&tanggal={tgl}', [App\Http\Controllers\dosen\PresensiController::class, 'edit'])->name('dosen.matakuliah.presensi.edit');
+            Route::put('/matkuliahUpdate={id}&tanggal={tgl}', [App\Http\Controllers\dosen\PresensiController::class, 'update'])->name('dosen.matakuliah.presensi.update');
+        });
     });
 
 Route::middleware('auth:mahasiswa')

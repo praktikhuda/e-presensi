@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="{{ asset('assets/dashboard-asset/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('assets/dashboard-asset/dist/css/adminlte.min.css')}}">
+
+    <link rel="stylesheet" href="{{ asset('assets/dashboard-asset/plugins/fullcalendar/main.css') }}">
     <!-- Boostraps 5.3.3 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
@@ -53,6 +55,7 @@
         <script src="{{asset('assets/dashboard-asset/dist/js/adminlte.js')}}"></script>
 
         <!-- PAGE PLUGINS -->
+        <script src="{{ asset('assets/dashboard-asset/plugins/fullcalendar/main.js') }}"></script>
         <!-- jQuery Mapael -->
         <script src="{{asset('assets/dashboard-asset/plugins/jquery-mousewheel/jquery.mousewheel.js')}}"></script>
         <script src="{{asset('assets/dashboard-asset/plugins/raphael/raphael.min.js')}}"></script>
@@ -67,6 +70,11 @@
         <!-- JS Boostraps 5.3.3  -->
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+
+
+        <!-- FULLCALENDAR -->
+        <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/bootstrap5@6.1.14/index.global.min.js'></script>
+        <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
 </body>
 
 </html>

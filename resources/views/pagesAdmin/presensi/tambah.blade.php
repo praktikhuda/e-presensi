@@ -5,13 +5,13 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Matakuliah</h1>
+                <h1 class="m-0">Tambah Presensi</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#" style="text-decoration: none;">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#" style="text-decoration: none;">Mahasiswa</a></li>
-                    <li class="breadcrumb-item active">{{ $matakuliah->nama }}</li>
+                    <li class="breadcrumb-item"><a href="#" style="text-decoration: none;">Matakuliah</a></li>
+                    <li class="breadcrumb-item active">Tambah</li>
                 </ol>
             </div>
         </div>
@@ -44,55 +44,39 @@
                 <p class="card-text">{{ $matakuliah->getJurusan->nama }} ({{ $matakuliah->getJurusan->kode_jurusan }}) {{ $matakuliah->getDosen ? $matakuliah->getDosen->nama : 'Admin' }}</p>
             </div>
         </div>
-        <div class="card">
+        <div class="card card-primary">
             <div class="card-header">
-                <h3 class="card-title">Responsive Hover Table</h3>
-                <div class="card-tools">
-                    <div class="input-group input-group-sm">
-                        <div class="input-group-append">
-                            <div class="input-group-prepend pr-5">
-
-                            </div>
+                <h3 class="card-title">Quick Example</h3>
+            </div>
+            <form action="{{ route('matakuliah.presensi.tambah', $matakuliah->id) }}" method="post" enctype="multipart/form-data">
+                @csrf
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Tanggal Presensi </label>
+                        <input type="date" class="form-control @error('tanggal_presensi') is-invalid @enderror" name="tanggal_presensi" placeholder="Enter Matakuliah" value="{{ old('tanggal_presensi') }}">
+                        @error('tanggal_presensi')
+                        <div class="invalid-feedback">
+                            {{ $message }}
                         </div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Catatan</label>
+                        <textarea class="form-control @error('catatan') is-invalid @enderror" rows="3" name="catatan">{{ old('catatan') }}</textarea>
+                        @error('catatan')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
                     </div>
                 </div>
-            </div>
-            <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Tanggal Presensi</th>
-                            <th>Catatn</th>
-                            <th>Status</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($presensi as $pres)
-                        <tr>
-                            <td>1</td>
-                            <td>{{ $pres->tanggal_presensi }}</td>
-                            <td>{{ $pres->catatan }}</td>
-                            <td>{{ $pres->bPresensi }} / {{ $pres->data }}</td>
-                            <td class="text-center">
-                                <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
-                                    Action
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li class="dropdown-item text-center">{{ $matakuliah->getJurusan->kode_jurusan }}</li>
-                                    <li class="dropdown-divider"></li>
-                                    <li class="dropdown-item"><a href="{{ route('matakuliah.presensi.edit', ['id' => $matakuliah->id, 'tgl' => $pres->tanggal_presensi]) }}" class="btn">Edit Presensi</a></li>
-                                    <li class="dropdown-item"><a href="" class="btn">Lihat Mahasiswa</a></li>
-                                </ul>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Tambah Presentasi</button>
+                </div>
+            </form>
         </div>
     </div>
 </section>
+
 
 @endsection

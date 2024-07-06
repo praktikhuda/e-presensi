@@ -5,7 +5,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Matakuliah <a href="/admin/matakuliah/create" class="btn btn-outline-dark btn-sm">Tambah Matakuliah</a></h1>
+                <h1 class="m-0">Matakuliah <a href="/dosen/matakuliah/create" class="btn btn-outline-dark btn-sm">Tambah Matakuliah</a></h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -35,7 +35,7 @@
                     @endif
 
                     <div class="card-body">
-                        <a href="{{ route('matakuliah.lihat', $mat->id) }}" class="link-secondary">
+                        <a href="{{ route('dosen.matakuliah.lihat', $mat->id) }}" class="link-secondary">
                             <h5 class="card-title">{{ $mat->nama }}</h5>
                         </a>
                         <p class="card-text">{{ substr($gabung, 0, 40)."..." }}</p>

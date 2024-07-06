@@ -23,8 +23,9 @@
             @if (!empty($matakuliah->foto) && $matakuliah->foto !== 'noo')
             <img src="{{ asset('storage/'. $matakuliah->foto) }}" class="card-img-top" alt="..." style="object-fit: cover; height: 200px; float:center">
             @else
-            <img src="{{ asset('storage/upload/cover.jpg') }}" class="card-img-top" alt="..." style="object-fit: cover; height: 200px; float:center">
+            <img src="{{ asset('storage/upload/cover.jpg') }}" class="card-img-top img-preview" alt="..." style="object-fit: cover; height: 200px; float:center">
             @endif
+
             <div class="card-img-overlay">
                 <button type="button" class="btn" data-toggle="dropdown">
                     <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-gear-wide-connected" viewBox="0 0 16 16">
@@ -34,9 +35,9 @@
                 <ul class="dropdown-menu">
                     <li class="dropdown-item text-center">{{ $matakuliah->getJurusan->kode_jurusan }}</li>
                     <li class="dropdown-divider"></li>
-                    <li class="dropdown-item"><a href="{{ route('matakuliah.presensi', $matakuliah->id) }}" class="btn">Tambah Presensi</a></li>
+                    <li class="dropdown-item"><a href="" class="btn">Tambah Presensi</a></li>
                     <li class="dropdown-item"><a href="{{ route('matakuliah.edit', $matakuliah->id) }}" class="btn">Edit Matakuliah</a></li>
-                    <li class="dropdown-item"><a href="{{ route('matakuliah.lihatMahasiswa', $matakuliah->id) }}" class="btn">Lihat Mahasiswa</a></li>
+                    <li class="dropdown-item"><a href="" class="btn">Lihat Mahasiswa</a></li>
                 </ul>
             </div>
             <div class="card-body">
@@ -44,55 +45,72 @@
                 <p class="card-text">{{ $matakuliah->getJurusan->nama }} ({{ $matakuliah->getJurusan->kode_jurusan }}) {{ $matakuliah->getDosen ? $matakuliah->getDosen->nama : 'Admin' }}</p>
             </div>
         </div>
-        <div class="card">
+        <div class="card card-primary">
             <div class="card-header">
-                <h3 class="card-title">Responsive Hover Table</h3>
-                <div class="card-tools">
-                    <div class="input-group input-group-sm">
-                        <div class="input-group-append">
-                            <div class="input-group-prepend pr-5">
-
-                            </div>
+                <h3 class="card-title">Quick Example</h3>
+            </div>
+            <form action="{{ route('matakuliah.update', $matakuliah->id) }}" method="post" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                <div class="card-body">
+                    <input type="hidden" value="{{ auth()->user()->id }}" name="dosen_id">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Nama Matakuliah</label>
+                        <input type="text" class="form-control @error('nama') is-invalid @enderror" name="nama" placeholder="Enter Matakuliah" value="{{ old('nama', $matakuliah->nama) }}">
+                        @error('nama')
+                        <div class="invalid-feedback">
+                            {{ $message }}
                         </div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="jurusan">Jurusan</label>
+                        <select class="form-control @error('jurusan_id') is-invalid @enderror" name="jurusan_id">
+                            @foreach ($jurusan as $jur)
+                            <option value="{{ $jur->id }}" @if ($matakuliah->jurusan_id == $jur->id) selected @endif>
+                                {{ $jur->nama }}
+                            </option>
+                            @endforeach
+                        </select>
+                        @error('jurusan_id')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="formFile" class="col-sm-2 col-form-label">Foto</label>
+                        <input class="form-control @error('foto') is-invalid @enderror" type="file" id="image" name="foto" onchange="previewImage()">
+                        @error('foto')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
                     </div>
                 </div>
-            </div>
-            <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Tanggal Presensi</th>
-                            <th>Catatn</th>
-                            <th>Status</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($presensi as $pres)
-                        <tr>
-                            <td>1</td>
-                            <td>{{ $pres->tanggal_presensi }}</td>
-                            <td>{{ $pres->catatan }}</td>
-                            <td>{{ $pres->bPresensi }} / {{ $pres->data }}</td>
-                            <td class="text-center">
-                                <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
-                                    Action
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li class="dropdown-item text-center">{{ $matakuliah->getJurusan->kode_jurusan }}</li>
-                                    <li class="dropdown-divider"></li>
-                                    <li class="dropdown-item"><a href="{{ route('matakuliah.presensi.edit', ['id' => $matakuliah->id, 'tgl' => $pres->tanggal_presensi]) }}" class="btn">Edit Presensi</a></li>
-                                    <li class="dropdown-item"><a href="" class="btn">Lihat Mahasiswa</a></li>
-                                </ul>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Edit Matakuliah</button>
+                </div>
+            </form>
         </div>
     </div>
 </section>
+
+<script>
+    function previewImage() {
+        const image = document.querySelector('#image');
+        const imgPreview = document.querySelector('.img-preview');
+
+        imgPreview.style.display = 'block';
+
+        const oFReader = new FileReader();
+        oFReader.readAsDataURL(image.files[0]);
+
+        oFReader.onload = function(oFREvent) {
+            imgPreview.src = oFREvent.target.result;
+        }
+    }
+</script>
 
 @endsection

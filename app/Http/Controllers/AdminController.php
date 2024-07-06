@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dosen;
+use App\Models\Presensi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
@@ -120,5 +122,25 @@ class AdminController extends Controller
     public function matakuliah()
     {
         return view('pagesMatakuliah.matakuliah');
+    }
+
+    public function calender(Request $request)
+    {
+        $start = date('Y-m-d', strtotime($request->start));
+        $end = date('Y-m-d', strtotime($request->end));
+
+        $presensi = Presensi::select(
+            'tanggal_presensi',
+            'catatan',
+        )->groupBy('tanggal_presensi', 'catatan')->where('tanggal_presensi', '>=', $start)->get()->map(fn ($item) => [
+            'title' => $item->catatan,
+            'start' => $item->tanggal_presensi
+        ]);
+        return response()->json($presensi);
+    }
+
+    public function tamppilCalendar()
+    {
+        return view('pagesAdmin.calender');
     }
 }

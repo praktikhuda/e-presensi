@@ -34,9 +34,9 @@
                 <ul class="dropdown-menu">
                     <li class="dropdown-item text-center">{{ $matakuliah->getJurusan->kode_jurusan }}</li>
                     <li class="dropdown-divider"></li>
-                    <li class="dropdown-item"><a href="{{ route('matakuliah.presensi', $matakuliah->id) }}" class="btn">Tambah Presensi</a></li>
+                    <li class="dropdown-item"><a href="" class="btn">Tambah Presensi</a></li>
                     <li class="dropdown-item"><a href="{{ route('matakuliah.edit', $matakuliah->id) }}" class="btn">Edit Matakuliah</a></li>
-                    <li class="dropdown-item"><a href="{{ route('matakuliah.lihatMahasiswa', $matakuliah->id) }}" class="btn">Lihat Mahasiswa</a></li>
+                    <li class="dropdown-item"><a href="" class="btn">Lihat Mahasiswa</a></li>
                 </ul>
             </div>
             <div class="card-body">
@@ -61,31 +61,21 @@
                 <table class="table table-hover text-nowrap">
                     <thead>
                         <tr>
-                            <th>No</th>
-                            <th>Tanggal Presensi</th>
-                            <th>Catatn</th>
+                            <th>ID</th>
+                            <th>Email</th>
+                            <th>Nama</th>
                             <th>Status</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($presensi as $pres)
+                        @foreach ($matmas as $mm)
                         <tr>
-                            <td>1</td>
-                            <td>{{ $pres->tanggal_presensi }}</td>
-                            <td>{{ $pres->catatan }}</td>
-                            <td>{{ $pres->bPresensi }} / {{ $pres->data }}</td>
-                            <td class="text-center">
-                                <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
-                                    Action
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li class="dropdown-item text-center">{{ $matakuliah->getJurusan->kode_jurusan }}</li>
-                                    <li class="dropdown-divider"></li>
-                                    <li class="dropdown-item"><a href="{{ route('matakuliah.presensi.edit', ['id' => $matakuliah->id, 'tgl' => $pres->tanggal_presensi]) }}" class="btn">Edit Presensi</a></li>
-                                    <li class="dropdown-item"><a href="" class="btn">Lihat Mahasiswa</a></li>
-                                </ul>
-                            </td>
+                            <td>{{ $mm->getMahasiswa->id }}</td>
+                            <td>{{ $mm->getMahasiswa->email }}</td>
+                            <td>{{ $mm->getMahasiswa->nama }}</td>
+                            <td>10 / 10</td>
+                            <td class="text-center">{{ $mm->getMahasiswa->getJurusan->kode_jurusan }}</td>
                         </tr>
                         @endforeach
                     </tbody>

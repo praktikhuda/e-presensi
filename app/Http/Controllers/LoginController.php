@@ -52,7 +52,7 @@ class LoginController extends Controller
         //     }
         // }
 
-        return back()->with('loginError', 'Gagal Login!!');
+        return back()->with('loginError', 'Login Gagal,');
     }
 
     public function logout(Request $request)

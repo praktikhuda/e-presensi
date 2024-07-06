@@ -34,9 +34,9 @@
                 <ul class="dropdown-menu">
                     <li class="dropdown-item text-center">{{ $matakuliah->getJurusan->kode_jurusan }}</li>
                     <li class="dropdown-divider"></li>
-                    <li class="dropdown-item"><a href="{{ route('matakuliah.presensi', $matakuliah->id) }}" class="btn">Tambah Presensi</a></li>
-                    <li class="dropdown-item"><a href="{{ route('matakuliah.edit', $matakuliah->id) }}" class="btn">Edit Matakuliah</a></li>
-                    <li class="dropdown-item"><a href="{{ route('matakuliah.lihatMahasiswa', $matakuliah->id) }}" class="btn">Lihat Mahasiswa</a></li>
+                    <li class="dropdown-item"><a href="{{ route('dosen.matakuliah.presensi', $matakuliah->id) }}" class="btn">Tambah Presensi</a></li>
+                    <li class="dropdown-item"><a href="{{ route('dosen.matakuliah.edit', $matakuliah->id) }}" class="btn">Edit Matakuliah</a></li>
+                    <li class="dropdown-item"><a href="{{ route('dosen.matakuliah.lihatMahasiswa', $matakuliah->id) }}" class="btn">Lihat Mahasiswa</a></li>
                 </ul>
             </div>
             <div class="card-body">
@@ -82,7 +82,7 @@
                                 <ul class="dropdown-menu">
                                     <li class="dropdown-item text-center">{{ $matakuliah->getJurusan->kode_jurusan }}</li>
                                     <li class="dropdown-divider"></li>
-                                    <li class="dropdown-item"><a href="{{ route('matakuliah.presensi.edit', ['id' => $matakuliah->id, 'tgl' => $pres->tanggal_presensi]) }}" class="btn">Edit Presensi</a></li>
+                                    <li class="dropdown-item"><a href="{{ route('dosen.matakuliah.presensi.edit', ['id' => $matakuliah->id, 'tgl' => $pres->tanggal_presensi]) }}" class="btn">Edit Presensi</a></li>
                                     <li class="dropdown-item"><a href="" class="btn">Lihat Mahasiswa</a></li>
                                 </ul>
                             </td>
